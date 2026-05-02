@@ -45,6 +45,14 @@
             </xacro:inertial_box>
             
         </link>
+
+        <joint name="front_camera_optical_joint" type="fixed">
+            <parent link="front_camera_link"/>
+            <child link="front_camera_optical_frame"/>
+            <origin xyz="0 0 0" rpy="${-PI/2} 0 ${-PI/2}"/>
+        </joint>
+        <link name="front_camera_optical_frame"/>
+
         <gazebo reference="front_camera_link">
             <sensor name="front_d455" type="rgbd_camera">
                 <gz_frame_id>front_camera_link</gz_frame_id>
