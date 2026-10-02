@@ -45,9 +45,25 @@
             </xacro:inertial_box>
             
         </link>
+
+        <!-- Was missing entirely (unlike front_depth.xacro's equivalent
+             front_camera_optical_frame): without this, back_camera has no
+             REP-103 optical-convention frame in TF at all, only the
+             mechanical back_camera_link. Same fixed local rotation as
+             front's — it converts this link's own mechanical axes to
+             optical convention (x-right/y-down/z-forward), which doesn't
+             depend on how the link itself is mounted on the robot (that's
+             base2back_camera's rpy, already ${PI} to face backward). -->
+        <joint name="back_camera_optical_joint" type="fixed">
+            <parent link="back_camera_link"/>
+            <child link="back_camera_optical_frame"/>
+            <origin xyz="0 0 0" rpy="${-PI/2} 0 ${-PI/2}"/>
+        </joint>
+        <link name="back_camera_optical_frame"/>
+
         <gazebo reference="back_camera_link">
             <sensor name="back_d455" type="rgbd_camera">
-                <gz_frame_id>back_camera_link</gz_frame_id>
+                <gz_frame_id>back_camera_optical_frame</gz_frame_id>
                 <always_on>true</always_on>
                 <update_rate>30</update_rate>
                 <visualize>true</visualize>
